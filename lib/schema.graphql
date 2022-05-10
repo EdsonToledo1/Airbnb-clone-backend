@@ -1,0 +1,110 @@
+type Home {
+  _id: ID!
+  userId: ID!
+  locationId: ID!
+  imageUrl: String!
+  title: String!
+  caption: String!
+  detail: String
+  amenities: String
+  evaluations: [Evaluation]
+  averageEvaluation: Float
+  price: Float!
+  currency: String!
+  coordinates: Coordinates!
+  busyDates: [Float]
+  guests: Int!
+}
+
+type User {
+  _id: ID!
+  email: String!
+  password: String!
+  userName: String!
+  imageUrl: String
+  country: String!
+}
+
+type Evaluation {
+  _id: ID!
+  userId: ID!
+  homeId: ID!
+  date: String
+  stars: Float!
+  review: String
+}
+
+type Coordinates {
+  _id: ID!
+  lat: Float!
+  lon: Float!
+}
+
+type Location {
+  _id: ID!
+  country: String!
+  city: String!
+  town: String!
+}
+
+type UserValidation {
+  userExists: Boolean!
+  userId: ID!
+}
+
+input HomeInput {
+  userId: ID!
+  locationId: ID!
+  imageUrl: String!
+  title: String!
+  caption: String!
+  detail: String
+  amenities: String
+  price: Float!
+  currency: String!
+  coordinates: CoordinatesInput!
+  guests: Int!
+}
+
+input UserInput {
+  email: String!
+  password: String!
+  userName: String!
+  imageUrl: String
+  country: String
+}
+
+input CoordinatesInput {
+  lat: Float!
+  lon: Float!
+}
+
+input LocationInput {
+  country: String!
+  city: String!
+  town: String!
+}
+
+input ReservationDateInput {
+  checkin: String!
+  checkout: String!
+}
+
+type Query {
+  getHomes(limit: Int!): [Home]
+  getHomesFrom(locationIds: [String]!, date: ReservationDateInput): [Home]
+  getHome(id: ID!): Home
+  getUsers: [User]
+  getUser(id: ID!): User
+  validateUser(email: String!, password: String!): UserValidation
+  getLocations: [Location]
+  getLocationsFrom(locationName: String!): [Location]
+  getLocation(id: ID!): Location
+  getEvaluations(limit: Int!): [Evaluation]
+}
+
+type Mutation {
+  createHome(input: HomeInput!): Home
+  createUser(input: UserInput!): User
+  createLocation(input: LocationInput!): Location
+}
